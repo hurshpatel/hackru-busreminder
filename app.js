@@ -36,8 +36,8 @@ app.get("/", function(request, response) {
 
 app.post("/receive", function(request, response) {
 
-  body = request.body.body;
-  from = request.body.from;
+  body = request.body["Body"];
+  from = request.body["From"];
 
   handleMessage(response, body, from);
 });
