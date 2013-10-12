@@ -9,7 +9,7 @@ app.get("/", function(request, response) {
   response.send("Bus Reminder")
 });
 
-var response = function(response, data) {
+var respond = function(response, data) {
 
   response.writeHead(200, { "Content-Type" : "text/xml"});
   response.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
