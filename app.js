@@ -11,9 +11,9 @@ app.get("/", function(request, response) {
 
 var respond = function(response, data) {
 
-  response.writeHead(200, { "Content-Type" : "text/xml", "Content-Length" : data.length });
-  response.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-  response.write(data);
+  var fullData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + data;
+  response.writeHead(200, { "Content-Type" : "text/xml", "Content-Length" : fullData.length });
+  response.write(fullData);
   response.end();
 };
 
