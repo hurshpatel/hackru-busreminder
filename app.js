@@ -9,10 +9,17 @@ app.get("/", function(request, response) {
   response.send("Bus Reminder")
 });
 
+var response = function(response, data) {
+
+  response.writeHead(200, { "Content-Type" : "text/xml"});
+  response.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+  response.write(data);
+  response.end();
+};
+
 app.post("/receive", function(request, response) {
 
-  console.log(request.body);
-  response.send("ok");
+  respond("<Response>\n<Message>Sup, yo</Message>\n</Response>");
 });
 
 var port = process.env.PORT || 5000;
