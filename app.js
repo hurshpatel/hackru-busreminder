@@ -24,7 +24,7 @@ app.get("/", function(request, response) {
 
 app.post("/receive", function(request, response) {
 
-  textBack("request: " + request.body);
+  textBack(response, "request: " + request.body);
 });
 
 var port = process.env.PORT || 5000;
