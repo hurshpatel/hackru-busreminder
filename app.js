@@ -6,6 +6,7 @@ app.get("/", function(request, response) {
   response.send("Bus Reminder")
 });
 
-app.listen(8770);
+var port = process.env.PORT || 5000;
+app.listen(port);
 
 console.log("Server started (8770)");
