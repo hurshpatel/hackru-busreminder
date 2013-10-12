@@ -8,4 +8,4 @@ app.get("/", function(request, response) {
 
 app.listen(8770);
 
-console.log("Server started (8770)");""
+console.log("Server started (8770)");
