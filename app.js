@@ -12,7 +12,7 @@ var respond = function(response, data) {
   response.end();
 };
 
-var textBack(response, message) {
+var textBack = function(response, message) {
 
   respond(response, "<Response>\n<Message>" + message + "</Message>\n</Response>");
 };
