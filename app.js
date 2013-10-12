@@ -2,6 +2,13 @@ var express = require('express');
 var twilio = require('twilio');
 
 var app = express();
+
+app.configure(function() {
+
+  app.use(express.bodyParser());
+  app.use(app.router);
+});
+
 var twilio = new twilio.RestClient("AC2c3b364a9ee85a3422bbe0e6603c8588", "6a0cf57047fe549c324924108b5e4c6b");
 
 var respond = function(response, data) {
