@@ -24,6 +24,11 @@ var textBack = function(response, message) {
   respond(response, "<Response>\n<Message>" + message + "</Message>\n</Response>");
 };
 
+var handleMessage = function(response, body, from) {
+
+  textBack(response, "Hello person at " + from +", thanks for sending \"" + body + "\". We'll get right on that.");
+};
+
 app.get("/", function(request, response) {
 
   response.send("Bus Reminder")
@@ -31,7 +36,10 @@ app.get("/", function(request, response) {
 
 app.post("/receive", function(request, response) {
 
-  textBack(response, "request: " + JSON.stringify(request.body));
+  body = request.body.body;
+  from = request.body.from;
+
+  handleMessage(response, body, from);
 });
 
 var port = process.env.PORT || 5000;
