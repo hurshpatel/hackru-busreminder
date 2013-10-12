@@ -31,7 +31,7 @@ app.get("/", function(request, response) {
 
 app.post("/receive", function(request, response) {
 
-  textBack(response, "request: " + request.body);
+  textBack(response, "request: " + JSON.stringify(request.body));
 });
 
 var port = process.env.PORT || 5000;
