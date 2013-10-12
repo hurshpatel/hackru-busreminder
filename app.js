@@ -19,7 +19,7 @@ var respond = function(response, data) {
 
 app.post("/receive", function(request, response) {
 
-  respond("<Response>\n<Message>Sup, yo</Message>\n</Response>");
+  respond(response, "<Response>\n<Message>Sup, yo</Message>\n</Response>");
 });
 
 var port = process.env.PORT || 5000;
