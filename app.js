@@ -134,8 +134,8 @@ var commonRoutes = function(firstRoutes, secondRoutes) {
   var routes = [];
 
   for(var i = 0; i < firstRoutes.length; ++i){
-	var route1 = firstRoutes[i];
-	if(route1.predictions === undefined){
+	 var route1 = firstRoutes[i];
+	 if(route1.predictions === undefined){
    		continue;
    	}
 
@@ -147,8 +147,6 @@ var commonRoutes = function(firstRoutes, secondRoutes) {
       if(route1.title===route2.title){
       	routes.push(route2);
       }
-
-
     }
   }
 
@@ -159,12 +157,10 @@ var retrieveCommonRoutes = function(originTitle, destinationTitle, handler) {
 
   request.get("http://runextbus.herokuapp.com/stop/" + originTitle, function (error1, response1, body1) {
 
-    request.get("http://runextbus.herokuapp.com/stop/" + originTitle, function (error2, response2, body2) {
+    request.get("http://runextbus.herokuapp.com/stop/" + destinationTitle, function (error2, response2, body2) {
 
       var firstRoutes = JSON.parse(body1);
       var secondRoutes = JSON.parse(body2);
-
-      console.log(firstRoutes[0]);
 
       handler(commonRoutes(firstRoutes, secondRoutes));
     });
@@ -185,6 +181,10 @@ var handleMessage = function(response, body, from) {
 
   retrieveCommonRoutes(originStop, destinationStop, function(theRoutes) {
 
+    theRoutes.forEach(function(route) {
+
+      console.log("Matched: " + route.title);
+    });
   });
 
   insertInformationIntoDatabase(information);
