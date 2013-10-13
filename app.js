@@ -120,6 +120,7 @@ var insertInformationIntoDatabase = function(information) {
 
 var generateResponseFromInformation = function(information) {
 
+  return "Success!"
 };
 
 var handleMessage = function(response, body, from) {
