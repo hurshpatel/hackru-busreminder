@@ -181,12 +181,22 @@ var dateToRemind = function(minutesUntilBusComes, minutesBeforeItComesToRemind) 
 
 var selectShortestRoute = function(routes) {
 
-  return routes[0];
+
+  return routes[0]; //Which bus to take which is shortest
 };
 
-var nextBusTimeForRoute = function(route) {
+var nextBusTimeForRoute = function(route, minutesNeededBefore) {
 
-  return route;
+  var nextTime = route.predictions;
+  var minutesUntilBusComes = nextTime[0].minutes;
+
+  if(nextTime.length() > 1){
+    if(nextTime[0].minutes < minutesNeededBefore){
+      return nextTime[1].minutes;
+    }
+  }
+
+  return minutesUntilBusComes; //Next time for a certain bus
 };
 
 var handleMessage = function(response, body, from) {
@@ -205,15 +215,23 @@ var handleMessage = function(response, body, from) {
 
     shortestRoute = selectShortestRoute(theRoutes);
 
-    minutesUntilBusComes = nextBusTimeForRoute(shortestRoute);
     minutesBeforeItComesToRemind = information["reminder_time"];
+    minutesUntilBusComes = nextBusTimeForRoute(shortestRoute, minutesBeforeItComesToRemind);
+    
+    if(minutesBeforeItComesToRemind > minutesUntilBusComes){
+      var RemindNow = "Your bus is arriving before your reminder time."
+      var RemindWithTime = RemindNow + " Your bus is arriving in " + minutesUntilBusComes + " minutes."
+      textBack(response, RemindWithTime);
+    }
+    else{
 
-    reminderDate = dateToRemind(minutesUntilBusComes, minutesBeforeItComesToRemind);
+      reminderDate = dateToRemind(minutesUntilBusComes, minutesBeforeItComesToRemind);
 
-    insertInformationIntoDatabase(information, reminderDate);
+      insertInformationIntoDatabase(information, reminderDate);
 
-    var responseMessage = generateResponseFromInformation(information);
-    textBack(response, responseMessage);
+      var responseMessage = generateResponseFromInformation(information);
+      textBack(response, responseMessage);
+    }
   });
 };
 
