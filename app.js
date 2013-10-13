@@ -57,7 +57,7 @@ var validateNumString = function(numString){
 
 var validateBody = function(response, body) {
 
-	var sep = body.split(",");
+	var sep = body.split(", ");
 
 	var start = sep[0];
 	var dest = sep[1];
@@ -99,7 +99,7 @@ var validateBody = function(response, body) {
  */
 var parseInformation = function(body) {
 
-  var parts = body.split(",");
+  var parts = body.split(", ");
   // parts = ["Scott Hall", "College Hall", "10"]
 
   var origin = parts[0];
@@ -121,7 +121,7 @@ var insertInformationIntoDatabase = function(information) {
 
 var generateResponseFromInformation = function(information) {
 
-  return "Success!"
+  return "Got it bro!"
 };
 
 var RouteTitlesToTagsMap = {
@@ -134,21 +134,20 @@ var commonRoutes = function(firstRoutes, secondRoutes) {
   var routes = [];
 
   for(var i = 0; i < firstRoutes.length; ++i){
-	var route1 = firstRoutes[i];
-	if(route1.predictions === undefined){
+	 var route1 = firstRoutes[i];
+	 if(route1.predictions === null) {
    		continue;
    	}
 
     for(var j = 0; j < secondRoutes.length; ++j){
       var route2 = secondRoutes[j];
-      if(route2.predictions===undefined){
+
+      if(route2.predictions === null) {
       	continue;
       }
       if(route1.title===route2.title){
-      	routes.append(route2);
+      	routes.push(route2);
       }
-
-
     }
   }
 
@@ -159,16 +158,22 @@ var retrieveCommonRoutes = function(originTitle, destinationTitle, handler) {
 
   request.get("http://runextbus.herokuapp.com/stop/" + originTitle, function (error1, response1, body1) {
 
-    request.get("http://runextbus.herokuapp.com/stop/" + originTitle, function (error2, response2, body2) {
+    request.get("http://runextbus.herokuapp.com/stop/" + destinationTitle, function (error2, response2, body2) {
 
       var firstRoutes = JSON.parse(body1);
       var secondRoutes = JSON.parse(body2);
 
-      console.log(firstRoutes[0]);
-
       handler(commonRoutes(firstRoutes, secondRoutes));
     });
   });
+};
+
+var dateToRemind = function(minutesUntilBusComes, minutesBeforeItComesToRemind) {
+
+  var now = new Date();
+  var remindDate = ;//
+
+  return remindDate;
 };
 
 var handleMessage = function(response, body, from) {
@@ -185,12 +190,16 @@ var handleMessage = function(response, body, from) {
 
   retrieveCommonRoutes(originStop, destinationStop, function(theRoutes) {
 
+    theRoutes.forEach(function(route) {
+
+        console.log("Matched: " + route.title);
+    });
+
+    insertInformationIntoDatabase(information);
+
+    var responseMessage = generateResponseFromInformation(information);
+    textBack(response, responseMessage);
   });
-
-  insertInformationIntoDatabase(information);
-
-  var responseMessage = generateResponseFromInformation(information);
-  textBack(response, responseMessage);
 };
 
 app.get("/", function(request, response) {
