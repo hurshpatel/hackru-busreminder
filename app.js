@@ -1,3 +1,4 @@
+//GitHub.com/jparishy/hackru-busreminder is the main repository and we have individual forks
 var express = require('express');
 var twilio = require('twilio');
 var request = require('request');
@@ -115,8 +116,9 @@ var parseInformation = function(body) {
   };
 };
 
-var insertInformationIntoDatabase = function(information) {
-
+var insertInformationIntoDatabase = function(information, reminderDate) {
+  //Did not a have sufficient amount of time to finish inputing info into the database
+  //Takes in the users text they send to Twilio and stores it onto the database
 };
 
 var generateResponseFromInformation = function(information) {
@@ -179,6 +181,26 @@ var dateToRemind = function(minutesUntilBusComes, minutesBeforeItComesToRemind) 
   return now;
 };
 
+var selectShortestRoute = function(routes) {
+
+
+  return routes[0]; //Which bus to take which is shortest
+};
+
+var nextBusTimeForRoute = function(route, minutesNeededBefore) {
+
+  var nextTime = route.predictions;
+  var minutesUntilBusComes = nextTime[0].minutes;
+
+  if(nextTime.length() > 1){
+    if(nextTime[0].minutes < minutesNeededBefore){
+      return nextTime[1].minutes;
+    }
+  }
+
+  return minutesUntilBusComes; //Next time for a certain bus
+};
+
 var handleMessage = function(response, body, from) {
 
   if(!validateBody(response, body))
@@ -193,15 +215,25 @@ var handleMessage = function(response, body, from) {
 
   retrieveCommonRoutes(originStop, destinationStop, function(theRoutes) {
 
-    theRoutes.forEach(function(route) {
+    shortestRoute = selectShortestRoute(theRoutes);
 
-        console.log("Matched: " + route.title);
-    });
+    minutesBeforeItComesToRemind = information["reminder_time"];
+    minutesUntilBusComes = nextBusTimeForRoute(shortestRoute, minutesBeforeItComesToRemind);
+    
+    if(minutesBeforeItComesToRemind > minutesUntilBusComes){
+      var RemindNow = "Your bus is arriving before your reminder time."
+      var RemindWithTime = RemindNow + " Your bus is arriving in " + minutesUntilBusComes + " minutes."
+      textBack(response, RemindWithTime);
+    }
+    else{
 
-    insertInformationIntoDatabase(information);
+      reminderDate = dateToRemind(minutesUntilBusComes, minutesBeforeItComesToRemind);
 
-    var responseMessage = generateResponseFromInformation(information);
-    textBack(response, responseMessage);
+      insertInformationIntoDatabase(information, reminderDate);
+
+      var responseMessage = generateResponseFromInformation(information);
+      textBack(response, responseMessage);
+    }
   });
 };
 
