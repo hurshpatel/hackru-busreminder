@@ -24,8 +24,50 @@ var textBack = function(response, message) {
   respond(response, "<Response>\n<Message>" + message + "</Message>\n</Response>");
 };
 
+var validateName = function(name) {
+
+	var count=0;
+
+	while(count < name.length){
+		if(/[A-z]/.test(name.charAt(count)) || /[ ]/.test(name.charAt(count))){
+			count++;
+		}
+		else{
+			return false;
+		}
+	}
+	return true;
+}
+
+var validateNumString = function(numString){
+	var count=0;
+
+	while(count<numString.length){
+		if(/[0-9]/.test(numString.charAt(count))){
+			count++;
+		}
+		else{
+			return false;
+		}
+	}
+	return true;
+}
+
+
 var validateBody = function(body) {
 
+	var sep = body.split(",");
+
+	var start = sep[0];
+	var dest = sep[1];
+	var durationString = sep[2];
+
+	if(validateName(start) && validateName(dest) && validateNumString(durationString)){
+		return true;
+	}
+	else{
+		return false;
+	}
 };
 
 /*
