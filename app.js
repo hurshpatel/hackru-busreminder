@@ -115,7 +115,7 @@ var parseInformation = function(body) {
   };
 };
 
-var insertInformationIntoDatabase = function(information) {
+var insertInformationIntoDatabase = function(information, reminderDate) {
 
 };
 
@@ -176,6 +176,16 @@ var dateToRemind = function(minutesUntilBusComes, minutesBeforeItComesToRemind) 
   return remindDate;
 };
 
+var selectShortestRoute = function(routes) {
+
+  return routes[0];
+};
+
+var nextBusTimeForRoute = function(route) {
+
+  return route;
+};
+
 var handleMessage = function(response, body, from) {
 
   if(!validateBody(response, body))
@@ -190,12 +200,14 @@ var handleMessage = function(response, body, from) {
 
   retrieveCommonRoutes(originStop, destinationStop, function(theRoutes) {
 
-    theRoutes.forEach(function(route) {
+    shortestRoute = selectShortestRoute(theRoutes);
 
-        console.log("Matched: " + route.title);
-    });
+    minutesUntilBusComes = nextBusTimeForRoute(shortestRoute);
+    minutesBeforeItComesToRemind = information["reminder_time"];
 
-    insertInformationIntoDatabase(information);
+    reminderDate = dateToRemind(minutesUntilBusComes, minutesBeforeItComesToRemind);
+
+    insertInformationIntoDatabase(information, reminderDate);
 
     var responseMessage = generateResponseFromInformation(information);
     textBack(response, responseMessage);
