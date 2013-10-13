@@ -133,13 +133,20 @@ var commonRoutes = function(firstRoutes, secondRoutes) {
 
   var routes = [];
 
-  for(var i = 0; i < firstRoutes.length; ++i)
-  {
-    var route1 = firstRoutes[i];
+  for(var i = 0; i < firstRoutes.length; ++i){
+	var route1 = firstRoutes[i];
+	if(route1.predictions === undefined){
+   		continue;
+   	}
 
-    for(var j = 0; j < secondRoutes.length; ++j)
-    {
+    for(var j = 0; j < secondRoutes.length; ++j){
       var route2 = secondRoutes[j];
+      if(route2.predictions===undefined){
+      	continue;
+      }
+      if(route1.title===route2.title){
+      	routes.append(route2);
+      }
 
 
     }
