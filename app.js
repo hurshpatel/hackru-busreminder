@@ -51,7 +51,13 @@ var validateName = function(name) {
 	}
 	return true;
 }
-
+/*
+* validateNumString is a boolean that checks to see if what the user entered is a number
+* similar to validateName, this function also checks for spaces because of extra spaces added by the user, or a space after the comma
+*uses a count for incrementation if it a double digit number
+* returns false if not a number or space
+* true if it is a number
+*/
 var validateNumString = function(numString){
 	var count=0;
 
