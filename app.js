@@ -20,7 +20,13 @@ var respond = function(response, data) {
   response.write(fullData);
   response.end();
 };
-
+/*
+*textBack sends a response with the message in it
+*
+*calls the respond function, links it with the message
+*
+*
+*/
 var textBack = function(response, message) {
 
   respond(response, "<Response>\n<Message>" + message + "</Message>\n</Response>");
