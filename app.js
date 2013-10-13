@@ -1,3 +1,4 @@
+//GitHub.com/jparishy/hackru-busreminder is the main repository and we have individual forks
 var express = require('express');
 var twilio = require('twilio');
 var request = require('request');
@@ -116,7 +117,8 @@ var parseInformation = function(body) {
 };
 
 var insertInformationIntoDatabase = function(information, reminderDate) {
-
+  //Did not a have sufficient amount of time to finish inputing info into the database
+  //Takes in the users text they send to Twilio and stores it onto the database
 };
 
 var generateResponseFromInformation = function(information) {
