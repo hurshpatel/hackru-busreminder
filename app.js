@@ -31,7 +31,12 @@ var textBack = function(response, message) {
 
   respond(response, "<Response>\n<Message>" + message + "</Message>\n</Response>");
 };
-
+/*
+* validateName is a boolean that makes sure that the name of the bus stop has characters that are only letters or spaces
+* a count is created to check each character of the name
+*the if statement checks if the charAt the count in the name is either between[A-z] or is [ ] 
+* if that char is not any of these, it returns false
+*/
 var validateName = function(name) {
 
 	var count=0;
