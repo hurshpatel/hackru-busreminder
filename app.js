@@ -43,7 +43,7 @@ var validateNumString = function(numString){
 	var count=0;
 
 	while(count<numString.length){
-		if(/[0-9]/.test(numString.charAt(count)) || /[ ]/.test(name.charAt(count))){
+		if(/[0-9]/.test(numString.charAt(count)) || /[ ]/.test(numString.charAt(count))){
 			count++;
 		}
 		else{
