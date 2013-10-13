@@ -72,7 +72,17 @@ var validateNumString = function(numString){
 	return true;
 }
 
-
+/*
+*validateBody calls on validateName and validateNumString to check the full input of the user, which is the text message
+*what it first does is split the text message into three parts, the start, dest, and durationString
+*then it checks to see if these individual pieces are valid inputs but entering this info into the validateName and validatNumString functions
+* if info does not fill requirements, the user is sent back a text saying whichever piece of data they sent is invalid
+*returns false if so
+*if it passes all these checks, we return true
+*
+*ex: user enters Scott Hall, College Hall, 3q
+* The start and destination are valid, but since the NumString has a q in it, it texts back "Time is invalid (3a)" and returns false
+*/
 var validateBody = function(response, body) {
 
 	var sep = body.split(", ");
