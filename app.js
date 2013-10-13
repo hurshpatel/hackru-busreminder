@@ -171,9 +171,12 @@ var retrieveCommonRoutes = function(originTitle, destinationTitle, handler) {
 var dateToRemind = function(minutesUntilBusComes, minutesBeforeItComesToRemind) {
 
   var now = new Date();
-  var remindDate = ;//
+  var nowMinutes = now.getMinutes()
+  var remindMinutes=nowMinutes+minutesUntilBusComes-minutesBeforeItComesToRemind
 
-  return remindDate;
+  now.setMinutes(remindMinutes);
+
+  return now;
 };
 
 var handleMessage = function(response, body, from) {
