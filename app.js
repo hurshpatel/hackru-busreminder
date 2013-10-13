@@ -50,7 +50,7 @@ var parseInformation = function(body) {
   var destination = parts[1];
   var minutesString = parts[2];
 
-  var minutes = !!!;
+  var minutes = parseInt(minutesString); //parse the String to an int
 
   return {
     "origin_stop": origin,
