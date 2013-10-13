@@ -24,9 +24,13 @@ var textBack = function(response, message) {
   respond(response, "<Response>\n<Message>" + message + "</Message>\n</Response>");
 };
 
+var validateBody = function(body) {
+
+};
+
 /*
  * body is a string like:
- * "Scott Hall, College Hall, 10min"
+ * "Scott Hall, College Hall, 10"
  * or
  * "<Origin Stop>, <Destination Stop>, <Amount of minutes before bus comes to send reminder>"
  *
@@ -39,6 +43,20 @@ var textBack = function(response, message) {
  */
 var parseInformation = function(body) {
 
+  var parts = body.split(",");
+  // parts = ["Scott Hall", "College Hall", "10"]
+
+  var origin = parts[0];
+  var destination = parts[1];
+  var minutesString = parts[2];
+
+  var minutes = !!!;
+
+  return {
+    "origin_stop": origin,
+    "destination_stop": destination,
+    "reminder_time": minutes
+  };
 };
 
 var insertInformationIntoDatabase = function(information) {
@@ -50,6 +68,12 @@ var generateResponseFromInformation = function(information) {
 };
 
 var handleMessage = function(response, body, from) {
+
+  if(!validateBody(body))
+  {
+    textBack(response, "You fucked up son");
+    return;
+  }
 
   var information = parseInformation(body);
   insertInformationIntoDatabase(information);
