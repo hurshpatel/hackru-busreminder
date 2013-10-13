@@ -145,7 +145,7 @@ var commonRoutes = function(firstRoutes, secondRoutes) {
       	continue;
       }
       if(route1.title===route2.title){
-      	routes.append(route2);
+      	routes.push(route2);
       }
 
 
