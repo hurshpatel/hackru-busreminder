@@ -133,8 +133,8 @@ var handleMessage = function(response, body, from) {
   var information = parseInformation(body);
   insertInformationIntoDatabase(information);
 
-  var response = generateResponseFromInformation(information);
-  textBack(response, response);
+  var responseMessage = generateResponseFromInformation(information);
+  textBack(response, responsMessage);
 };
 
 app.get("/", function(request, response) {
