@@ -43,7 +43,7 @@ var validateNumString = function(numString){
 	var count=0;
 
 	while(count<numString.length){
-		if(/[0-9]/.test(numString.charAt(count))){
+		if(/[0-9]/.test(numString.charAt(count)) || /[ ]/.test(name.charAt(count))){
 			count++;
 		}
 		else{
@@ -54,7 +54,7 @@ var validateNumString = function(numString){
 }
 
 
-var validateBody = function(body) {
+var validateBody = function(response, body) {
 
 	var sep = body.split(",");
 
@@ -62,12 +62,25 @@ var validateBody = function(body) {
 	var dest = sep[1];
 	var durationString = sep[2];
 
-	if(validateName(start) && validateName(dest) && validateNumString(durationString)){
-		return true;
-	}
-	else{
-		return false;
-	}
+  if(!validateName(start))
+  {
+    textBack(response, "Start is invalid (" + start + ")");
+    return false;
+  }
+
+  if(!validateName(dest))
+  {
+    textBack(response, "Dest is invalid (" + dest + ")");
+    return false;
+  }
+
+  if(!validateNumString(durationString))
+  {
+    textBack(response, "Time is invalid (" + durationString + ")");
+    return false;
+  }
+
+  return true;
 };
 
 /*
@@ -111,9 +124,8 @@ var generateResponseFromInformation = function(information) {
 
 var handleMessage = function(response, body, from) {
 
-  if(!validateBody(body))
+  if(!validateBody(response, body))
   {
-    textBack(response, "You fucked up son");
     return;
   }
 
