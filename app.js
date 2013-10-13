@@ -1,5 +1,6 @@
 var express = require('express');
 var twilio = require('twilio');
+var request = require('request');
 
 var app = express();
 
@@ -43,7 +44,7 @@ var validateNumString = function(numString){
 	var count=0;
 
 	while(count<numString.length){
-		if(/[0-9]/.test(numString.charAt(count)) || /[ ]/.test(name.charAt(count))){
+		if(/[0-9]/.test(numString.charAt(count)) || /[ ]/.test(numString.charAt(count))){
 			count++;
 		}
 		else{
@@ -120,6 +121,54 @@ var insertInformationIntoDatabase = function(information) {
 
 var generateResponseFromInformation = function(information) {
 
+  return "Success!"
+};
+
+var RouteTitlesToTagsMap = {
+  "Weekend 1": "wknd1",
+  "Weekend 2": "wknd2"
+};
+
+var commonRoutes = function(firstRoutes, secondRoutes) {
+
+  var routes = [];
+
+  for(var i = 0; i < firstRoutes.length; ++i){
+	var route1 = firstRoutes[i];
+	if(route1.predictions === undefined){
+   		continue;
+   	}
+
+    for(var j = 0; j < secondRoutes.length; ++j){
+      var route2 = secondRoutes[j];
+      if(route2.predictions===undefined){
+      	continue;
+      }
+      if(route1.title===route2.title){
+      	routes.append(route2);
+      }
+
+
+    }
+  }
+
+  return routes;
+};
+
+var retrieveCommonRoutes = function(originTitle, destinationTitle, handler) {
+
+  request.get("http://runextbus.herokuapp.com/stop/" + originTitle, function (error1, response1, body1) {
+
+    request.get("http://runextbus.herokuapp.com/stop/" + originTitle, function (error2, response2, body2) {
+
+      var firstRoutes = JSON.parse(body1);
+      var secondRoutes = JSON.parse(body2);
+
+      console.log(firstRoutes[0]);
+
+      handler(commonRoutes(firstRoutes, secondRoutes));
+    });
+  });
 };
 
 var handleMessage = function(response, body, from) {
@@ -130,10 +179,18 @@ var handleMessage = function(response, body, from) {
   }
 
   var information = parseInformation(body);
+
+  var originStop = information["origin_stop"];
+  var destinationStop = information["destination_stop"];
+
+  retrieveCommonRoutes(originStop, destinationStop, function(theRoutes) {
+
+  });
+
   insertInformationIntoDatabase(information);
 
-  var response = generateResponseFromInformation(information);
-  textBack(response, response);
+  var responseMessage = generateResponseFromInformation(information);
+  textBack(response, responseMessage);
 };
 
 app.get("/", function(request, response) {
