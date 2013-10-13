@@ -64,19 +64,19 @@ var validateBody = function(response, body) {
 
   if(!validateName(start))
   {
-    textBack(response, "Name is invalid");
+    textBack(response, "Start is invalid");
     return false;
   }
 
   if(!validateName(dest))
   {
-    textBack(response, "Name is invalid");
+    textBack(response, "Dest is invalid");
     return false;
   }
 
   if(!validateNumString(durationString))
   {
-    textBack(response, "Name is invalid");
+    textBack(response, "Time is invalid");
     return false;
   }
 
