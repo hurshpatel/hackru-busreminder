@@ -134,7 +134,7 @@ var handleMessage = function(response, body, from) {
   insertInformationIntoDatabase(information);
 
   var responseMessage = generateResponseFromInformation(information);
-  textBack(response, responsMessage);
+  textBack(response, responseMessage);
 };
 
 app.get("/", function(request, response) {
