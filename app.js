@@ -168,6 +168,14 @@ var retrieveCommonRoutes = function(originTitle, destinationTitle, handler) {
   });
 };
 
+var dateToRemind = function(minutesUntilBusComes, minutesBeforeItComesToRemind) {
+
+  var now = new Date();
+  var remindDate = ;//
+
+  return remindDate;
+};
+
 var handleMessage = function(response, body, from) {
 
   if(!validateBody(response, body))
