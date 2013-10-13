@@ -24,9 +24,38 @@ var textBack = function(response, message) {
   respond(response, "<Response>\n<Message>" + message + "</Message>\n</Response>");
 };
 
+/*
+ * body is a string like:
+ * "Scott Hall, College Hall, 10min"
+ * or
+ * "<Origin Stop>, <Destination Stop>, <Amount of minutes before bus comes to send reminder>"
+ *
+ * The response should looks like:
+ * {
+ *   "origin_stop": <Origin stop>,
+ *   "destination_stop": <Destination stop>,
+ *   "reminder_time": <Reminder time>
+ * }
+ */
+var parseInformation = function(body) {
+
+};
+
+var insertInformationIntoDatabase = function(information) {
+
+};
+
+var generateResponseFromInformation = function(information) {
+
+};
+
 var handleMessage = function(response, body, from) {
 
-  textBack(response, "Hello person at " + from +", thanks for sending \"" + body + "\". We'll get right on that.");
+  var information = parseInformation(body);
+  insertInformationIntoDatabase(information);
+
+  var response = generateResponseFromInformation(information);
+  textBack(response, response);
 };
 
 app.get("/", function(request, response) {
